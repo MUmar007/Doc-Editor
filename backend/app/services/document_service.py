@@ -48,6 +48,14 @@ def _to_doc_out(
     shared_by_user = None
     if not is_owned and share is not None:
         shared_by_user = owner
+
+    if is_owned:
+        my_permission = "owner"
+    elif share is not None and share.permission == "edit":
+        my_permission = "edit"
+    else:
+        my_permission = "view"
+
     return DocumentOut(
         id=doc.id,
         title=doc.title,
@@ -58,6 +66,7 @@ def _to_doc_out(
         updated_at=doc.updated_at,
         is_owned=is_owned,
         shared_by=shared_by_user,
+        my_permission=my_permission,
     )
 
 
@@ -125,6 +134,8 @@ async def create_document(
 async def update_document(
     db: AsyncSession, doc_id: uuid.UUID, user_id: uuid.UUID, data: DocumentUpdate
 ) -> DocumentOut:
+    from app.services.version_service import maybe_create_version
+
     doc, share = await _get_doc_with_share(db, doc_id, user_id)
     if not share_service.can_edit(user_id, doc, share):
         raise ForbiddenError()
@@ -133,6 +144,7 @@ async def update_document(
         doc.title = data.title
     if data.content is not None:
         doc.content = data.content
+        await maybe_create_version(db, doc_id, doc.title, doc.content, user_id)
 
     await db.flush()
     await db.refresh(doc)

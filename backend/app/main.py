@@ -10,7 +10,7 @@ from app.config import settings
 from app.database import AsyncSessionLocal, engine
 from app.exceptions import AppError
 from app.models import Base
-from app.routers import auth, documents, shares
+from app.routers import auth, comments, documents, presence, shares, versions
 from app.seed import seed_users
 
 
@@ -45,6 +45,9 @@ app.add_middleware(
 app.include_router(auth.router)
 app.include_router(documents.router)
 app.include_router(shares.router)
+app.include_router(versions.router)
+app.include_router(comments.router)
+app.include_router(presence.router)
 
 
 @app.exception_handler(AppError)

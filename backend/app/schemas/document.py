@@ -1,6 +1,6 @@
 import uuid
 from datetime import datetime
-from typing import Any
+from typing import Any, Literal
 
 from pydantic import BaseModel, ConfigDict, Field, field_validator
 
@@ -48,6 +48,7 @@ class DocumentListOut(BaseModel):
 
 class DocumentOut(DocumentListOut):
     content: dict[str, Any]
+    my_permission: Literal["owner", "edit", "view"] = "owner"
 
 
 class DocumentsListResponse(BaseModel):
