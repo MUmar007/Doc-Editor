@@ -11,10 +11,9 @@ Muhammad Umar — umar.dev09@gmail.com
 | `backend/` | FastAPI + SQLAlchemy + PostgreSQL backend |
 | `frontend/` | React + Material UI frontend |
 | `docker-compose.yml` | Local development setup |
-| `README.md` | Local setup and run instructions |
+| `README.md` | Setup, run instructions, project structure, deployment steps |
 | `ARCHITECTURE.md` | Architecture decisions and tradeoffs |
 | `AI_WORKFLOW.md` | AI tool usage notes |
-| `DEPLOY.md` | Railway + Vercel deployment steps |
 | `SUBMISSION.md` | This file |
 
 ## Links
@@ -41,10 +40,14 @@ You can also create a new account via the Sign up page.
 - Auto-save with visual indicator (debounced 800ms)
 - Document persistence — content survives refresh
 - File upload: `.txt`, `.md`, `.docx` → new editable document
-- Document sharing: owner can share with any demo user
+- Document sharing: owner can share with any user (view or edit permission)
 - Two-tab list: "My Documents" and "Shared with Me"
-- Access control enforced server-side (403 if no access)
-- View-only mode: toolbar disabled for view-permission shares
+- Role-based access control: permission enforced server-side (403 if no access); view-only users see disabled toolbar and no history/restore controls
+- **Real-time presence indicators**: live avatars showing who's in the document; WebSocket-based with deterministic user colors and a heartbeat that self-corrects missed join/leave events
+- **Inline commenting**: add, resolve, and delete comments per document with unread badge counter
+- **Document version history**: auto-snapshots every 30s on content change; manual "save snapshot now"; click any version to preview it or see a word-level GitHub-style diff (green = added, red = removed) before restoring
+- **Export to PDF**: opens a clean print window with proper typography — no React chrome
+- **Export to Markdown**: downloads a `.md` file converted from the Tiptap JSON tree
 - 5 automated backend tests (all passing)
 - Ruff linting (backend) and ESLint (frontend) with zero errors
 - Docker Compose local dev (`docker compose up --build`)
@@ -54,20 +57,17 @@ You can also create a new account via the Sign up page.
 
 | Feature | Status | Notes |
 |---------|--------|-------|
-| Real authentication | ✅ | Email/password signup + login with JWT tokens |
 | `.docx` full fidelity | Partial | Handles paragraphs + bold/italic/underline; skips tables/images |
-| Real-time collaboration | Not built | Would require WebSocket infrastructure |
-| Version history | Not built | Schema could support it with a versions table |
-| Export to PDF/Markdown | Not built | Stretch goal |
+| Collaborative cursor positions | Not built | Presence avatars show who's viewing but not their cursor location |
+| Pagination | Not built | Not needed at demo scale |
 
-## What I Would Build Next (2–4 More Hours)
+## What I Would Build Next
 
-1. Document version history (versions table, diff viewer)
-2. Export to Markdown (trivial from Tiptap JSON)
-3. Real-time presence indicators (WebSocket + document room)
-4. Inline commenting on document selections
-5. Full view/edit enforcement in the UI (surface the user's permission level from the API)
+1. Cursor-level presence (show each user's cursor position in the editor via Tiptap's collaboration cursor extension)
+2. Inline comment anchoring (tie a comment to a specific text range, not just the document)
+3. `.docx` export (using `docx` npm package)
+4. Notification system for comment mentions
 
 ## Walkthrough Video
 
-*(Add Loom/YouTube link here after recording)*
+https://drive.google.com/file/d/1uduHWJS5AMV6weOE3IgjG9AbGhDVjCrt/view?usp=sharing

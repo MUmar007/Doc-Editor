@@ -16,6 +16,20 @@
 
 5. **Test writing** — The 5 pytest tests covering CRUD, access control, file upload, and delete behavior were generated in one pass and passed after fixing the SQLite/JSONB incompatibility and the `get_current_user` dependency injection pattern.
 
+## Stretch Features Added With AI (Second Pass)
+
+After the initial submission, I asked Claude Code to implement the five stretch features called out as "not built": real-time collaboration indicators, commenting, version history, export, and a fix for the role-based sharing bug.
+
+1. **Presence WebSocket** — AI scaffolded the FastAPI WebSocket endpoint, in-memory room tracking, and the React hook (`usePresence`) with reconnect-on-drop logic in one pass. I caught and directed the fix for two real bugs that only showed up in multi-tab manual testing: (a) presence counts diverging between clients because a half-open `ws.send_text()` can succeed at the OS level without the peer receiving it — fixed by having the server reply with full room state on every heartbeat instead of trusting broadcast delivery; (b) avatar colors differing between the Python backend and JS frontend because Python's `hash()` is randomized per process — fixed by switching both sides to a deterministic `sum(ord(c))` scheme.
+
+2. **Version diff viewer** — Asked for a GitHub-style green/red diff before restoring a version. AI correctly reached for the `diff` package's `diffWords` and a Tiptap JSON → plain text walker on the first attempt.
+
+3. **PDF export** — First implementation hid the entire React app: a leftover `@media print { body > * { display: none } }` rule in `tiptap.css` (written for an earlier, unrelated purpose) suppressed everything when `window.print()` fired, producing a blank page with just the title. I diagnosed this by inspecting the print preview rather than the generated HTML, then redirected the approach to open a separate blank window with clean, self-contained HTML — avoiding any interaction with the main app's print styles.
+
+4. **Role-based sharing bug** — The original frontend inferred permission from `doc?.shared_by !== undefined`, which is a local heuristic, not the actual server-determined access level. I had AI add a `my_permission` field computed server-side in `DocumentOut` and switched the frontend to read that instead, closing the gap for edge cases like an owner viewing a doc shown in their own "shared" list.
+
+5. **MUI icon drift** — `@mui/icons-material/ChatBubbleOutline` doesn't exist in the installed MUI version; AI's first guess at an icon name was wrong. Caught via the Vite build error and swapped to `Comment`.
+
 ## What AI-Generated Output I Changed or Rejected
 
 1. **Auth middleware → FastAPI dependency** — The initial plan used a Starlette `BaseHTTPMiddleware` for auth. I rejected this approach when the tests failed because middleware bypasses FastAPI's `dependency_overrides`. I changed to a `get_current_user` FastAPI dependency, which is the correct pattern for testable FastAPI auth.
