@@ -1,0 +1,78 @@
+.tiptap-wrapper {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+}
+
+.tiptap-wrapper .ProseMirror {
+  flex: 1;
+  min-height: calc(100vh - 200px);
+  padding: 48px 64px;
+  outline: none;
+  font-size: 1rem;
+  line-height: 1.75;
+  color: #E3EAF2;
+  caret-color: #1976D2;
+}
+
+.tiptap-wrapper .ProseMirror p.is-editor-empty:first-child::before {
+  content: attr(data-placeholder);
+  float: left;
+  color: #546e7a;
+  pointer-events: none;
+  height: 0;
+}
+
+.tiptap-wrapper .ProseMirror h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  margin: 1.5rem 0 0.75rem;
+  color: #E3EAF2;
+}
+
+.tiptap-wrapper .ProseMirror h2 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin: 1.25rem 0 0.5rem;
+  color: #E3EAF2;
+}
+
+.tiptap-wrapper .ProseMirror h3 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin: 1rem 0 0.5rem;
+  color: #E3EAF2;
+}
+
+.tiptap-wrapper .ProseMirror ul,
+.tiptap-wrapper .ProseMirror ol {
+  padding-left: 1.5rem;
+  margin: 0.5rem 0;
+}
+
+.tiptap-wrapper .ProseMirror li {
+  margin: 0.25rem 0;
+}
+
+.tiptap-wrapper .ProseMirror p {
+  margin: 0.25rem 0;
+}
+
+.tiptap-wrapper .ProseMirror strong {
+  font-weight: 700;
+}
+
+.tiptap-wrapper .ProseMirror em {
+  font-style: italic;
+}
+
+.tiptap-wrapper .ProseMirror u {
+  text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+  .tiptap-wrapper .ProseMirror {
+    padding: 24px 20px;
+  }
+}

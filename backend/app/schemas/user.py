@@ -1,0 +1,37 @@
+import uuid
+from datetime import datetime
+
+from pydantic import BaseModel, ConfigDict, EmailStr, Field, model_validator
+
+
+class UserOut(BaseModel):
+    id: uuid.UUID
+    email: EmailStr
+    display_name: str
+    created_at: datetime
+
+    model_config = ConfigDict(from_attributes=True)
+
+
+class UserCreate(BaseModel):
+    email: EmailStr
+    password: str = Field(min_length=8)
+    confirm_password: str
+    full_name: str = Field(min_length=1, max_length=255)
+
+    @model_validator(mode="after")
+    def passwords_match(self) -> "UserCreate":
+        if self.password != self.confirm_password:
+            raise ValueError("Passwords do not match")
+        return self
+
+
+class LoginRequest(BaseModel):
+    email: EmailStr
+    password: str
+
+
+class TokenResponse(BaseModel):
+    access_token: str
+    token_type: str = "bearer"
+    user: UserOut
