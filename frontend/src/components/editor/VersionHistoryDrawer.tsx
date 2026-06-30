@@ -304,8 +304,10 @@ export function VersionHistoryDrawer({ docId, open, onClose, currentContent }: P
                     minute: '2-digit',
                   })}
                   secondary={`by ${v.author.display_name}`}
-                  primaryTypographyProps={{ variant: 'body2', fontWeight: 500 }}
-                  secondaryTypographyProps={{ variant: 'caption' }}
+                  slotProps={{
+                    primary: { variant: 'body2', sx: { fontWeight: 500 } },
+                    secondary: { variant: 'caption' },
+                  }}
                 />
               </ListItemButton>
             ))}
