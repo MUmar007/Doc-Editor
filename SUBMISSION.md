@@ -17,11 +17,12 @@ Muhammad Umar — umar.dev09@gmail.com
 | `DEPLOY.md` | Railway + Vercel deployment steps |
 | `SUBMISSION.md` | This file |
 
-## Live URLs
+## Links
 
-- **Frontend:** *(deploy to Vercel and add URL here)*
-- **Backend API:** *(deploy to Railway and add URL here)*
-- **API Docs:** `<backend-url>/docs` (FastAPI Swagger UI)
+- **GitHub Repo:** https://github.com/MUmar007/Doc-Editor
+- **Frontend:** https://doc-editor-iota.vercel.app/
+- **Backend API:** https://doc-editor-production-de8b.up.railway.app
+- **API Docs (Swagger):** https://doc-editor-production-de8b.up.railway.app/docs
 
 ## Demo Accounts
 
@@ -61,11 +62,11 @@ You can also create a new account via the Sign up page.
 
 ## What I Would Build Next (2–4 More Hours)
 
-1. Real JWT authentication with a registration/login flow
-2. Document version history (versions table, diff viewer)
-3. Export to Markdown (trivial from Tiptap JSON)
-4. Real-time presence indicators (WebSocket + document room)
-5. Inline commenting on document selections
+1. Document version history (versions table, diff viewer)
+2. Export to Markdown (trivial from Tiptap JSON)
+3. Real-time presence indicators (WebSocket + document room)
+4. Inline commenting on document selections
+5. Full view/edit enforcement in the UI (surface the user's permission level from the API)
 
 ## Walkthrough Video
 

@@ -50,7 +50,6 @@ Async SQLAlchemy with asyncpg gives non-blocking I/O that pairs correctly with F
 
 | Feature | Reason |
 |---------|--------|
-| Real authentication | Assignment permits mock auth; saves 1.5+ hours |
 | .docx full fidelity | python-docx handles paragraphs + runs but not tables/images |
 | Real-time collaboration | Would require WebSocket infrastructure (2+ hours) |
 | Version history | Stretch goal — schema could support it with a versions table |
@@ -60,8 +59,8 @@ Async SQLAlchemy with asyncpg gives non-blocking I/O that pairs correctly with F
 ## What I Would Build Next
 
 With another 2–4 hours:
-1. Real JWT auth with a registration/login flow
-2. Version history (store a `document_versions` table on each save)
-3. Export to Markdown (trivial from Tiptap JSON)
-4. Real-time presence indicators via WebSockets
-5. Inline commenting on document selections
+1. Version history (store a `document_versions` table on each save)
+2. Export to Markdown (trivial from Tiptap JSON)
+3. Real-time presence indicators via WebSockets
+4. Inline commenting on document selections
+5. Full view/edit permission enforcement in the UI

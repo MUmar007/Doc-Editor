@@ -7,8 +7,8 @@ A lightweight Google Docs-inspired collaborative document editor built for the A
 ## Quick Start (Docker)
 
 ```bash
-git clone <repo-url>
-cd test2
+git clone https://github.com/MUmar007/Doc-Editor.git
+cd Doc-Editor
 docker compose up --build
 ```
 
@@ -57,8 +57,9 @@ make lint
 
 ## Live Demo
 
-- **Frontend:** [Deployed on Vercel] *(URL in SUBMISSION.md)*
-- **Backend API:** [Deployed on Railway] *(URL in SUBMISSION.md)*
+- **Frontend:** https://doc-editor-iota.vercel.app/
+- **Backend API:** https://doc-editor-production-de8b.up.railway.app
+- **API Docs:** https://doc-editor-production-de8b.up.railway.app/docs
 
 **Demo accounts (seeded automatically):**
 
