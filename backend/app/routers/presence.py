@@ -92,6 +92,18 @@ async def presence_ws(
     try:
         while True:
             await websocket.receive_text()
+            # Client sent a heartbeat ping — reply with the current room state so
+            # the client self-corrects if it missed any join/leave events
+            await websocket.send_text(
+                json.dumps({
+                    "type": "presence_list",
+                    "users": [
+                        {"user_id": uid, **info}
+                        for uid, info in _rooms[doc_id].items()
+                        if uid != user_id
+                    ],
+                })
+            )
     except WebSocketDisconnect:
         pass
     finally:

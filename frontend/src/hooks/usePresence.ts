@@ -27,10 +27,11 @@ export function usePresence(docId: string): PresenceUser[] {
       let heartbeat: ReturnType<typeof setInterval>;
 
       ws.onopen = () => {
-        // Keep connection alive — Railway (and most proxies) close idle WebSockets
+        // Ping every 10s — server replies with full room state, keeping the list
+        // consistent even if a join/leave broadcast was dropped mid-flight
         heartbeat = setInterval(() => {
           if (ws.readyState === WebSocket.OPEN) ws.send('ping');
-        }, 25_000);
+        }, 10_000);
       };
 
       ws.onmessage = (event: MessageEvent) => {
@@ -75,9 +76,19 @@ export function usePresence(docId: string): PresenceUser[] {
 
     return () => {
       closed = true;
-      wsRef.current?.close(1000);
+      const ws = wsRef.current;
       wsRef.current = null;
       setUsers([]);
+      if (ws) {
+        // Silence the old socket — closing a still-connecting one throws in dev (Strict Mode).
+        ws.onopen = null;
+        ws.onmessage = null;
+        ws.onclose = null;
+        ws.onerror = null;
+        if (ws.readyState === WebSocket.OPEN) {
+          ws.close(1000);
+        }
+      }
     };
   }, [docId, token]);
 
